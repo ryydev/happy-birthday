@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>untuk Tiyara 🎂</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --deep-pink: #ff69b4;
+      --hot-pink: #ff1493;
+      --rose-pink: #ffb6c1;
+      --blush: #fff0f5;
+      --cream: #fffaf0;
+      --gold: #ffd700;
+      --text-color: #4b0082;
+      --cake-top: #ff80bf;
+      --cake-mid: #ff1a8c;
+      --cake-bot: #ff99cc;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--blush);
+      color: var(--text-color);
+      font-family: 'DM Sans', sans-serif;
+      overflow: hidden;
+      user-select: none;
+    }
+
+    /* ─── SCENES ───────────────────────────────────────────── */
+    .scene {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.9s ease;
+      z-index: 10;
+    }
+    .scene.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    /* ─── NOISE GRAIN OVERLAY ───────────────────────────────── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 128px;
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.5;
+    }
+
+    /* ════════════════════════════════════════════════════════
+       SCENE 1 — INTRO
+    ════════════════════════════════════════════════════════ */
+    #scene-intro {
+      background: radial-gradient(circle at center, #ffb6c1 0%, #fff0f5 70%);
+      gap: 2rem;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .intro-lines { display: flex; flex-direction: column; gap: 1.4rem; align-items: center; }
+
+    .intro-line {
+      font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 400;
+      font-size: clamp(1.4rem, 4vw, 2.2rem); color: var(--hot-pink); opacity: 0;
+      transform: translateY(14px); transition: opacity 1s ease, transform 1s ease; letter-spacing: 0.02em;
+    }
+    .intro-line.show { opacity: 1; transform: translateY(0); }
+
+    .intro-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--deep-pink); opacity: 0; animation: pulse-dot 2s ease infinite; }
+    .intro-dot.show { opacity: 1; }
+    @keyframes pulse-dot { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.5); opacity: 1; } }
+
+    .btn-continue {
+      margin-top: 2.5rem; padding: 0.75rem 2.4rem; border: 2px solid var(--deep-pink); border-radius: 60px;
+      background: var(--cream); color: var(--hot-pink); font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem; letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer;
+      opacity: 0; transition: opacity 0.8s ease, background 0.3s, transform 0.3s;
+      backdrop-filter: blur(4px); box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    .btn-continue.show { opacity: 1; }
+    .btn-continue:hover { background: var(--blush); transform: scale(1.04); }
+
+    /* ════════════════════════════════════════════════════════
+       SCENE 2 — CAKE
+    ════════════════════════════════════════════════════════ */
+    #scene-cake { background: var(--blush); justify-content: center; position: relative; }
+
+    .particles { position: absolute; inset: 0; pointer-events: none; }
+    .particle { position: absolute; border-radius: 50%; animation: float-up linear infinite; opacity: 0; }
+    @keyframes float-up { 0% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.3; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
+
+    .cake-wrapper { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; transform: scale(0.9); opacity: 0; transition: opacity 1s ease, transform 1s ease; z-index: 20; padding-top: 100px; }
+    .cake-wrapper.show { opacity: 1; transform: scale(1); }
+
+    #happy-video-container { position: absolute; top: -40px; left: 50%; transform: translateX(-50%) scale(0.8); width: 280px; max-width: 90vw; border-radius: 20px; overflow: hidden; opacity: 0; pointer-events: none; transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); z-index: 50; }
+    #happy-video-container.show { opacity: 1; transform: translateX(-50%) scale(1); }
+    #happyVideo { width: 100%; display: block; mix-blend-mode: screen; }
+
+    .candles { display: flex; gap: 15px; align-items: flex-end; margin-bottom: -2px; z-index: 10; }
+    .candle-group { display: flex; flex-direction: column; align-items: center; }
+
+    .flame-wrap { position: relative; width: 14px; height: 26px; margin-bottom: 2px; cursor: pointer; }
+    .flame { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 10px; height: 22px; background: radial-gradient(ellipse at 50% 80%, #fff 0%, #ffe066 30%, #ff69b4 65%, transparent 100%); border-radius: 50% 50% 30% 30%; animation: flicker 0.12s ease-in-out infinite alternate; filter: blur(0.5px); transform-origin: bottom center; }
+    .glow-halo { position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); width: 28px; height: 28px; background: radial-gradient(circle, rgba(255,105,180,0.35) 0%, transparent 70%); animation: flicker 0.15s ease-in-out infinite alternate; pointer-events: none; }
+    .candle-stick { width: 8px; height: 40px; border-radius: 2px 2px 0 0; position: relative; background: linear-gradient(180deg, #ff99cc, #ff1a8c); }
+    .c3 .candle-stick { background: linear-gradient(180deg, #ffd700, #ffb6c1); }
+
+    .flame-wrap.blown .flame, .flame-wrap.blown .glow-halo { opacity: 0; transition: opacity 0.3s ease; }
+    
+    .cake-tiers { display: flex; flex-direction: column; align-items: center; gap: 0; }
+    .tier { position: relative; border-radius: 4px; }
+    .tier-top { width: 110px; height: 45px; background: var(--cake-top); }
+    .tier-mid { width: 160px; height: 55px; background: var(--cake-mid); }
+    .tier-bot { width: 210px; height: 60px; background: var(--cake-bot); }
+    .cake-plate { width: 230px; height: 10px; background: linear-gradient(90deg, #ffd700, #ffeb99, #ffd700); border-radius: 10px; margin-top: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+    .blow-btn { position: relative; margin-top: 30px; padding: 0.8rem 2.5rem; border: none; border-radius: 50px; background: linear-gradient(90deg, #ff1a8c, #ff66b2); color: #fff; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; letter-spacing: 0.12em; text-transform: uppercase; font-weight: bold; cursor: pointer; opacity: 0; box-shadow: 0 4px 15px rgba(255,26,140,0.3); transition: opacity 0.3s ease, transform 0.2s; }
+    .blow-btn.show { opacity: 1; transform: translateY(0); }
+    .blow-btn.hidden { opacity: 0; pointer-events: none; }
+
+    .hint { margin-top: 12px; font-size: 0.73rem; color: rgba(255,105,180,0.7); opacity: 0; transition: opacity 0.3s; }
+    .hint.show { opacity: 1; }
+    .hint.hidden { opacity: 0; pointer-events: none; }
+
+    /* ════════════════════════════════════════════════════════
+       SCENE 3 — WISH
+    ════════════════════════════════════════════════════════ */
+    #scene-wish { background: radial-gradient(circle at center, #ffb6c1 0%, #fff0f5 70%); padding: 1rem; overflow-y: auto; }
+
+    .wish-card { max-width: 500px; width: 95%; background: white; border: 2px solid var(--rose-pink); border-radius: 24px; padding: 2rem 1.5rem; opacity: 0; transform: translateY(24px); transition: opacity 1s ease, transform 1s ease; box-shadow: 0 10px 30px rgba(255,105,180,0.15); text-align: center; }
+    .wish-card.show { opacity: 1; transform: translateY(0); }
+    .wish-title { font-family: 'Pacifico', cursive; font-size: 1.8rem; color: var(--hot-pink); margin-bottom: 1.2rem; }
+    .slow-video { width: 100%; height: 140px; object-fit: cover; border-radius: 12px; margin-bottom: 1.2rem; border: 1px solid var(--rose-pink); }
+    .wish-body { font-size: 0.9rem; line-height: 1.6; color: var(--text-color); text-align: left; min-height: 150px; padding: 1.2rem; background: var(--cream); border-radius: 15px; border: 1px dashed var(--hot-pink); }
+    .typing::after { content: '|'; animation: blink 0.7s infinite; color: var(--hot-pink); }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    .btn-next-video { margin-top: 1.5rem; padding: 0.7rem 2rem; background: var(--hot-pink); border: none; color: white; border-radius: 30px; cursor: pointer; opacity: 0; transition: 0.5s; }
+    .btn-next-video.show { opacity: 1; }
+
+    /* ════════════════════════════════════════════════════════
+       SCENE 4 — VIDEO (POLAROID)
+    ════════════════════════════════════════════════════════ */
+    #scene-video { background: radial-gradient(circle, #ffc0cb 0%, #ff69b4 100%); }
+
+    .video-container { position: relative; background: white; padding: 10px 10px 50px 10px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); border-radius: 8px; width: 85%; max-width: 320px; animation: swing 3s ease-in-out infinite alternate; z-index: 50; }
+    @keyframes swing { from { transform: rotate(-2deg); } to { transform: rotate(2deg); } }
+
+    #myVideo { width: 100%; display: block; background: #000; border-radius: 4px; }
+    #catVideo { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 80%; mix-blend-mode: screen; opacity: 0; pointer-events: none; transition: opacity 0.5s ease; z-index: 100; }
+    #catVideo.show { opacity: 1; }
+
+    .polaroid-text { position: absolute; bottom: 12px; left: 0; width: 100%; font-family: 'Pacifico', cursive; color: var(--hot-pink); font-size: 1.1rem; text-align: center; }
+    .video-hiasan { position: absolute; font-size: 2rem; z-index: 1; }
+    .v1 { top: 10%; left: 5%; animation: bounce 2s infinite; }
+    .v2 { top: 5%; right: 10%; animation: bounce 2.5s infinite; }
+    @keyframes bounce { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
+
+    /* ════════════════════════════════════════════════════════
+       SCENE 5 — FINAL (SHORT MESSAGE)
+    ════════════════════════════════════════════════════════ */
+    #scene-final { 
+        background: radial-gradient(circle at center, #fff0f5 0%, #ffb6c1 100%); 
+        /* position: relative; dihapus agar bisa memenuhi layar penuh dan tidak memotong background */
+    }
+
+    .final-text { 
+        font-family: 'Pacifico', cursive; 
+        font-size: 2rem; 
+        color: var(--hot-pink); 
+        opacity: 0; 
+        transform: translateY(-20px); 
+        transition: all 1s ease; 
+        text-align: center; 
+        width: 90%; 
+    }
+    .final-text.show { 
+        opacity: 1; 
+        transform: translateY(0); 
+    }
+
+    /* Tombol Replay diubah menjadi kecil di bawah dan disenterkan */
+    .btn-replay { 
+        position: absolute;
+        bottom: 40px; /* Dinaikkan sedikit jadi 40px agar batas HP aman */
+        left: 50%; /* Membuat ke tengah secara horizontal */
+        transform: translate(-50%, 20px); /* Memposisikan presisi tengah dan mengatur posisi awal transisi */
+        padding: 0.5rem 1.2rem; 
+        border: none; 
+        border-radius: 50px; 
+        background: linear-gradient(90deg, #ff1a8c, #ff66b2); 
+        color: #fff; 
+        font-family: 'DM Sans', sans-serif; 
+        font-size: 0.7rem; 
+        letter-spacing: 0.1em; 
+        text-transform: uppercase; 
+        font-weight: bold; 
+        cursor: pointer; 
+        opacity: 0; 
+        box-shadow: 0 4px 10px rgba(255,26,140,0.3); 
+        transition: opacity 0.5s ease, transform 0.5s ease; /* Transisi diperhalus */
+        pointer-events: none; 
+    }
+    .btn-replay.show { 
+        opacity: 1; 
+        transform: translate(-50%, 0); 
+        pointer-events: all; 
+    }
+    .btn-replay:hover { transform: translate(-50%, 0) scale(1.05); }
+
+    #confetti-canvas { position: fixed; inset: 0; pointer-events: none; z-index: 1000; }
+  </style>
+</head>
+<body>
+
+<audio id="bg-music" loop src="musik.mp3"></audio>
+<canvas id="confetti-canvas"></canvas>
+
+<section id="scene-intro" class="scene active">
+  <div class="intro-lines">
+    <span class="intro-line" id="l1">ada sesuatu yang mau aku kasih ke kamu…</span>
+    <span class="intro-line" id="l2">jangan buru-buru ya.</span>
+    <span class="intro-line" id="l3">semoga kamu sukaa.</span>
+    <div class="intro-dot" id="idot"></div>
+  </div>
+  <button class="btn-continue" id="btn-enter">buka sekarang →</button>
+</section>
+
+<section id="scene-cake" class="scene">
+  <div class="particles" id="particles"></div>
+  <div class="cake-wrapper" id="cake-wrapper">
+    <div id="happy-video-container">
+      <video id="happyVideo" playsinline preload="auto">
+        <source src="happy.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="candles">
+      <div class="candle-group c1"><div class="flame-wrap"><div class="flame"></div><div class="glow-halo"></div></div><div class="candle-stick"></div></div>
+      <div class="candle-group c2"><div class="flame-wrap"><div class="flame"></div><div class="glow-halo"></div></div><div class="candle-stick"></div></div>
+      <div class="candle-group c3"><div class="flame-wrap"><div class="flame"></div><div class="glow-halo"></div></div><div class="candle-stick"></div></div>
+      <div class="candle-group c4"><div class="flame-wrap"><div class="flame"></div><div class="glow-halo"></div></div><div class="candle-stick"></div></div>
+      <div class="candle-group c5"><div class="flame-wrap"><div class="flame"></div><div class="glow-halo"></div></div><div class="candle-stick"></div></div>
+    </div>
+    <div class="cake-tiers">
+      <div class="tier tier-top"></div>
+      <div class="tier tier-mid"></div>
+      <div class="tier tier-bot"></div>
+    </div>
+    <div class="cake-plate"></div>
+    <button class="blow-btn" id="blow-btn">🕯️ tiup lilin</button>
+    <p class="hint" id="cake-hint">klik lilinnya untuk meniup</p>
+  </div>
+</section>
+
+<section id="scene-wish" class="scene">
+  <div class="wish-card" id="wish-card">
+    <h1 class="wish-title">Happy Birthday, Tiyara.</h1>
+    <video class="slow-video" src="slow.mp4" autoplay loop muted playsinline></video>
+    <div class="wish-body typing" id="typewriter-text"></div>
+    <button class="btn-next-video" id="btn-video">Klik di sini yaa 💖</button>
+  </div>
+</section>
+
+<section id="scene-video" class="scene">
+  <div class="video-hiasan v1">🎀</div>
+  <div class="video-hiasan v2">🌸</div>
+  <div class="video-container">
+      <video id="myVideo" playsinline preload="auto">
+        <source src="video.mp4" type="video/mp4">
+      </video>
+      <video id="catVideo" playsinline preload="auto" muted>
+        <source src="cat.mp4" type="video/mp4">
+      </video>
+      <div class="polaroid-text">Spesial buat kamu ✨</div>
+  </div>
+</section>
+
+<section id="scene-final" class="scene">
+  <div class="final-text" id="final-msg">Udah, ituu aja intinya 🗿</div>
+  <button class="btn-replay" id="btn-replay">🔄 Putar Ulang</button>
+</section>
+
+<script>
+const $ = id => document.getElementById(id);
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
+function showScene(showId) {
+  document.querySelectorAll('.scene').forEach(s => s.classList.remove('active'));
+  $(showId).classList.add('active');
+}
+
+// INTRO LOGIC
+async function runIntro() {
+  await delay(600); $('l1').classList.add('show');
+  await delay(1300); $('l2').classList.add('show');
+  await delay(1100); $('l3').classList.add('show');
+  await delay(900); $('idot').classList.add('show');
+  await delay(700); $('btn-enter').classList.add('show');
+}
+runIntro();
+
+$('btn-enter').addEventListener('click', async () => {
+  showScene('scene-cake');
+  const music = $('bg-music');
+  music.volume = 0.4;
+  music.play().catch(() => {});
+  
+  createParticles();
+  await delay(500);
+  $('cake-wrapper').classList.add('show');
+  await delay(800);
+  $('blow-btn').classList.add('show');
+  $('cake-hint').classList.add('show');
+});
+
+// CAKE PARTICLES
+function createParticles() {
+  const container = $('particles');
+  for (let i = 0; i < 15; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.cssText = `width:4px;height:4px;left:${Math.random()*100}%;background:#ff69b4;animation-duration:${5+Math.random()*5}s;`;
+    container.appendChild(p);
+  }
+}
+
+// BLOW CANDLES LOGIC
+let blown = false;
+const blowAction = () => {
+  if (blown) return;
+  blown = true;
+  $('blow-btn').classList.add('hidden');
+  $('cake-hint').classList.add('hidden');
+  document.querySelectorAll('.flame-wrap').forEach((f, i) => {
+    setTimeout(() => f.classList.add('blown'), i * 150);
+  });
+  
+  setTimeout(() => {
+    launchConfetti();
+    setTimeout(() => {
+      const happyContainer = $('happy-video-container');
+      const happyVideo = $('happyVideo');
+      happyContainer.classList.add('show');
+      happyVideo.play().catch(() => {
+          happyVideo.muted = true;
+          happyVideo.play();
+      });
+      happyVideo.onended = () => {
+        happyContainer.classList.remove('show');
+        setTimeout(startWishScene, 1000);
+      };
+    }, 1000);
+  }, 800);
+};
+
+$('blow-btn').addEventListener('click', blowAction);
+document.querySelectorAll('.flame-wrap').forEach(f => f.addEventListener('click', blowAction));
+
+// WISH SCENE LOGIC
+async function startWishScene() {
+  showScene('scene-wish');
+  await delay(500);
+  $('wish-card').classList.add('show');
+  const text = "Hei, kamu. Ya, kamu yang lagi baca ini — hari ini hari kamu, dan aku nggak mau ngucapinnya dengan cara yang biasa.\n\nSemoga di umur sekarang, semuanya terasa lebih ringan dijalanin, hal kecil jadi lebih berarti, dan apa yang kamu impiin bisa mulai keliatan jalannya.\n\nKamu tuh udah jalan sejauh ini tanpa kamu sadar… semoga semua yang kamu lewatin sekarang pelan-pelan bikin kamu jadi lebih baik yaa, semangat terus!\n\nSelamat ulang tahun yaa 😄 semoga hari ini dan seterusnya berjalan baik terus buat kamu 🎂";
+  typeWriter(text, "typewriter-text");
+}
+
+function typeWriter(text, elementId) {
+  let i = 0;
+  const container = $(elementId);
+  function type() {
+    if (i < text.length) {
+      container.innerHTML += text.charAt(i) === "\n" ? "<br>" : text.charAt(i);
+      i++;
+      setTimeout(type, 45);
+    } else {
+        container.classList.remove('typing');
+        $('btn-video').classList.add('show');
+    }
+  }
+  type();
+}
+
+// VIDEO SCENE LOGIC
+$('btn-video').addEventListener('click', () => {
+  showScene('scene-video');
+  $('bg-music').pause(); 
+  const v = $('myVideo');
+  const cv = $('catVideo');
+  
+  cv.load(); 
+
+  v.play().catch(() => {
+      v.muted = true;
+      v.play();
+  });
+
+  v.addEventListener('timeupdate', function() {
+      if (v.duration - v.currentTime < 0.5) { 
+          cv.classList.add('show');
+          cv.play().catch(() => {
+              cv.muted = true;
+              cv.play();
+          });
+      }
+  });
+
+  v.onended = () => {
+      cv.classList.add('show');
+      cv.muted = false; 
+      cv.play().catch(() => cv.play());
+  };
+
+  // KETIKA CAT VIDEO SELESAI -> PINDAH KE SCENE FINAL
+  cv.onended = () => {
+    setTimeout(() => {
+      showScene('scene-final');
+      setTimeout(() => {
+        $('final-msg').classList.add('show');
+        $('btn-replay').classList.add('show'); // Memunculkan tombol replay
+      }, 500);
+    }, 1000); // Jeda 1 detik agar transisinya halus
+  };
+});
+
+// Reload halaman ketika Putar Ulang diklik
+$('btn-replay').addEventListener('click', () => {
+  window.location.reload(); 
+});
+
+// CONFETTI EFFECT
+function launchConfetti() {
+  const canvas = $('confetti-canvas');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+  canvas.style.opacity = '1';
+  const colors = ['#ff69b4', '#ff1493', '#ffd700'];
+  const pieces = [];
+  for (let i = 0; i < 80; i++) pieces.push({ x: Math.random()*canvas.width, y: -20, color: colors[Math.floor(Math.random()*3)], vy: 3+Math.random()*3 });
+  function draw() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p => { p.y += p.vy; ctx.fillStyle = p.color; ctx.fillRect(p.x, p.y, 7, 7); });
+    if(pieces.length > 0 && pieces[0].y < canvas.height) requestAnimationFrame(draw);
+  }
+  draw();
+  setTimeout(() => canvas.style.opacity = '0', 3000);
+}
+</script>
+</body>
+</html>
